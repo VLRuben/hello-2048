@@ -1,0 +1,8 @@
+version: '3'
+services:
+  apache2:
+    build: .
+    image: apache2:latest
+    restart: always
+    ports:
+      - '8080:80'
