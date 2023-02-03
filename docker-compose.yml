@@ -3,6 +3,7 @@ services:
   apache2:
     build: .
     image: apache2:latest
+      #    volumes : ./public_html/:/usr/local/apache2/htdocs/
     restart: always
     ports:
       - '8080:80'
