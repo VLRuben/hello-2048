@@ -10,7 +10,7 @@ pipeline {
             steps {
                 echo 'Build'
 		sh 'docker tag ghcr.io/vlruben/hello-2048/hello-2048:latest ghcr.io/vlruben/hello-2048/hello-2048:${BUILD_NUMBER}'
-		sh 'git tag MAIN:${BUILD_NUMBER}'
+		sh 'git tag ${BUILD_NUMBER}'
             }
         }
         stage('Package') {
