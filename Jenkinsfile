@@ -21,9 +21,9 @@ pipeline {
                 }
                 sh 'docker push ghcr.io/vlruben/hello-2048/hello-2048:${BUILD_NUMBER}' 
 		sshagent(['ssh-github']) {
-		"""
-		sh 'git push --tags'
-		"""
+		sh """ 
+			git push --tags 
+		   """
 		}
             }
         }
