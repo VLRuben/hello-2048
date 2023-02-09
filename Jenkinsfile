@@ -17,7 +17,8 @@ pipeline {
             steps {
                 sh 'docker-compose build'
                 withCredentials([string(credentialsId: 'lucatic github', variable: 'CR_PAT')]) {
-                    "echo $CR_PAT | docker login ghcr.io -u VLRuben --password-stdin && docker-compose push ghcr.io/vlruben/hello-2048:1.0.${BUILD_NUMBER}"
+                    "echo $CR_PAT | docker login ghcr.io -u VLRuben --password-stdin"
+		sh 'docker-compose push ghcr.io/vlruben/hello-2048:1.0.${BUILD_NUMBER}'
 		   
                 }
                 sh 'docker push ghcr.io/vlruben/hello-2048/hello-2048:1.0${BUILD_NUMBER}' 
