@@ -1,25 +1,39 @@
 pipeline {
     agent any
-         stages {
-	         stage('Build') {
-	            steps {
-        	        sh 'docker-compose build'
-	            }
-	       }
-        
-         stage('Deploy') {
-            steps {
-		//cambiar el docker-compose para que el nombre de imagen coincida 
-                sh 'docker-compose up -d'
-		sh 'docker push ghcr
-		
-		//meter en otro stage la parte de amazon
-		withCredentials([sshUserPrivateKey(credentialsId: 'amazon-ssh', keyFileVariable: '')]) {
- 		   // some block
-		}
-        	   }
-	       }
-	
- 	  }
-}
+    
+    options {
+        timestamps()
+    }
 
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Build'
+            }
+        }
+        stage('Package') {
+            steps {
+                sh 'docker-compose build'
+                withCredentials([string(credentialsId: 'lucatic github', variable: 'CR_PAT')]) {
+                    sh "echo $CR_PAT | docker login ghcr.io -u VLRuben --password-stdin"
+                }
+                sh 'docker push ghcr.io/vlruben/hello-2048/hello-2048:latest'
+                
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sshagent(['amazon-ssh']) {
+                    sh """
+                        ssh -o "StrictHostKeyChecking no" ec2-user@ec2-52-210-71-14.eu-west-1.compute.amazonaws.com docker pull ghcr.io/vlruben/hello-2048/hello-2048:latest
+                        ssh ec2-user@ec2-52-210-71-14.eu-west-1.compute.amazonaws.com docker run -d --rm -p 80:80 ghcr.io/vlruben/hello-2048/hello-2048:latest
+
+                        
+                    """
+                    
+                }
+            }
+        }
+    
+    }
+}
