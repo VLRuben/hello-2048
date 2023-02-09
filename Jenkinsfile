@@ -9,7 +9,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Build'
-		sh 'docker tag ghcr.io/vlruben/hello-2048/hello-2048:latest ghcr.io/vlruben/hello-2048/hello-2048:latest:Main:${BUILD_NUMBER}'
+		sh 'docker tag ghcr.io/vlruben/hello-2048/hello-2048:${BUILD_NUMBER} ghcr.io/vlruben/hello-2048/hello-2048:${BUILD_NUMBER}'
 		sh 'git tag MAIN:${BUILD_NUMBER}'
             }
         }
@@ -19,7 +19,7 @@ pipeline {
                 withCredentials([string(credentialsId: 'lucatic github', variable: 'CR_PAT')]) {
                     sh "echo $CR_PAT | docker login ghcr.io -u VLRuben --password-stdin"
                 }
-                sh 'docker push ghcr.io/vlruben/hello-2048/hello-2048:latest'
+                sh 'docker push ghcr.io/vlruben/hello-2048/hello-2048:${BUILD_NUMBER}'
 		sh 'git push --tags'
                 
             }
