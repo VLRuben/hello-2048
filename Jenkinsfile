@@ -9,8 +9,8 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Build'
-		sh 'docker tag ghcr.io/vlruben/hello-2048/hello-2048:latest ghcr.io/vlruben/hello-2048/hello-2048:latest:Main-1.0.1'
-		sh 'git tag MAIN 1.0.1'
+		sh 'docker tag ghcr.io/vlruben/hello-2048/hello-2048:latest ghcr.io/vlruben/hello-2048/hello-2048:latest:Main:${BUILD_NUMBER}'
+		sh 'git tag MAIN:${BUILD_NUMBER}'
             }
         }
         stage('Package') {
@@ -20,6 +20,7 @@ pipeline {
                     sh "echo $CR_PAT | docker login ghcr.io -u VLRuben --password-stdin"
                 }
                 sh 'docker push ghcr.io/vlruben/hello-2048/hello-2048:latest'
+		sh 'git push --tags'
                 
             }
         }
