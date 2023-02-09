@@ -32,7 +32,6 @@ pipeline {
                 sshagent(['amazon-ssh']) {
                     sh """
                         ssh -o "StrictHostKeyChecking no" ec2-user@ec2-52-210-71-14.eu-west-1.compute.amazonaws.com
-			dir('~/hello-2048') {
     			docker-compose pull
 			ssh ec2-user@ec2-52-210-71-14.eu-west-1.compute.amazonaws.com docker-compose up -d
 			}
