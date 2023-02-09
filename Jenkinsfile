@@ -20,7 +20,7 @@ pipeline {
                     sh "echo $CR_PAT | docker login ghcr.io -u VLRuben --password-stdin"
                 }
                 sh 'docker push ghcr.io/vlruben/hello-2048/hello-2048:${BUILD_NUMBER}'
-		sh 'git tags -l'
+		sh 'git tag -l'
                 
             }
         }
