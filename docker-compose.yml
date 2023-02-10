@@ -2,7 +2,7 @@ version: '3'
 services:
   apache2:
     build: .
-    image: hello-2048:latest
+    image: ghcr.io/vlruben/hello-2048/hello-2048:1.057
       #    volumes : ./public_html/:/usr/local/apache2/htdocs/
     restart: always
     ports:
