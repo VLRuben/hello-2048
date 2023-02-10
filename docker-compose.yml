@@ -6,4 +6,4 @@ services:
       #    volumes : ./public_html/:/usr/local/apache2/htdocs/
     restart: always
     ports:
-      - '8080:80'
+      - '80:80'
