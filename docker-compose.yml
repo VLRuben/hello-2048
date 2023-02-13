@@ -1,8 +1,7 @@
-version: '3.3'
+version: '3.0'
 services:
-  apache2:
+  hello-2048:
+    build: .
     image: ghcr.io/vlruben/hello-2048/hello-2048:latest
-      #    volumes : ./public_html/:/usr/local/apache2/htdocs/
-    restart: always
     ports:
       - '80:80'
